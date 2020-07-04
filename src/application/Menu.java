@@ -84,7 +84,7 @@ public class Menu {
 				} else if (selection.equals("14")) {
 					removeMember();
 				} else if (selection.equals("15")) {
-//					deleteMemberFromClass();
+					deleteMemberFromClass();
 				}  else if (selection.equals("16")) {
 					deleteClass();
 				}  else if (selection.equals("17")) {
@@ -126,6 +126,7 @@ public class Menu {
 		System.out.println("\nDisplay Schedule By Class\n");
 		System.out.print("Enter class ID: ");
 		int classID = Integer.parseInt(scanner.nextLine());
+		System.out.println("\n" + classesDao.getClassNameByID(classID) + "\n");
 		List<ClassesScheduled> listSchedule =  classesScheduledDao.ClassScheduledByID(classID);
 	
 		for (ClassesScheduled eachClass : listSchedule) {
@@ -155,34 +156,37 @@ public class Menu {
 		System.out.println("Enter the class ID: ");
 		int classID = Integer.parseInt(scanner.nextLine());
 		classesScheduledDao.addNewSchedule(memberID, classID);
+	}
+
+	private void deleteMemberFromClass() throws SQLException {
+		displayMembers();
+		System.out.println("\nRemove A Member From A Class:\n");
+		System.out.print("Enter the Member ID: ");
+		int memberID = Integer.parseInt(scanner.nextLine());
+		
+		List<ClassesScheduled> listSchedule =  classesScheduledDao.ClassScheduledByMemberID(memberID);
+		
+		System.out.println("\nScheduled Classes:\n");
+		for (ClassesScheduled eachClass : listSchedule) {
+			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
+			+ "\n     MemberID: " + eachClass.getMemberID() + "   Member: " + membershipDao.memberName(eachClass.getMemberID()) + "\n");
+		}
+	
+		System.out.print("Enter the schedule ID: ");
+		int scheduleID = Integer.parseInt(scanner.nextLine());
+		trainerDao.deleteTrainerById(scheduleID);
+		classesScheduledDao.deleteScheduleById(scheduleID);
+		
+	List<ClassesScheduled> listSchedule2 =  classesScheduledDao.ClassScheduledByMemberID(memberID);
+		
+		System.out.println("\nScheduled Classes:\n");
+		for (ClassesScheduled eachClass : listSchedule2) {
+			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
+			+ "\n     MemberID: " + eachClass.getMemberID() + "   Member: " + membershipDao.memberName(eachClass.getMemberID()) + "\n");
+		}
 		
 		
-			
 	}
-/*	
-	private void addFitnessClass() throws SQLException {
-		displayGymInfo();
-		displayTrainers();
-		displayClasses();
-		System.out.print("\nAdd a Fitness Class:");
-		System.out.print("Enter the class name: ");
-		String className = scanner.nextLine();
-		System.out.print("Enter the class date (2020-01-31): ");
-		String classDate = scanner.nextLine();
-		System.out.print("Enter the class start time: ");
-		String startTime = scanner.nextLine();
-		System.out.print("Enter the class length (minutes): ");
-		int length = Integer.parseInt(scanner.nextLine());
-		System.out.print("Enter the trainer's ID: ");
-		int trainerID = Integer.parseInt(scanner.nextLine());
-		System.out.print("Enter the gym's ID: ");
-		int gymID  = Integer.parseInt(scanner.nextLine());
-		classesDao.addNewClass(className, classDate, gymID, trainerID, startTime, length);
-	}
-	
-*/	
-	
-	
 	
 	private void displayClasses() throws SQLException {
 		List<Classes> listClasses = classesDao.Classes();
@@ -241,8 +245,9 @@ public class Menu {
 		displayClasses();
 		System.out.println("Remove A Fitness Class:");
 		System.out.print("Enter the class ID: ");
-		int instructorID = Integer.parseInt(scanner.nextLine());
-		trainerDao.deleteTrainerById(instructorID);
+		int classID = Integer.parseInt(scanner.nextLine());
+		classesScheduledDao.deleteScheduleByClassId(classID);
+		classesDao.deleteClassByID(classID);
 		displayClasses();
 		
 	}

@@ -15,7 +15,10 @@ public class ClassesScheduledDao {
 	private Connection connection;
 	private final String GET_CLASSES_SCHEDULED_QUERY = "SELECT * FROM classes_scheduled";
 	private final String GET_CLASSES_SCHEDULED_BY_ID_QUERY = "SELECT * FROM classes_scheduled WHERE class_ID = ?";
+	private final String GET_CLASSES_SCHEDULED_BY_MEMBER_ID_QUERY = "Select * FROM classes_scheduled WHERE member_ID = ?";
 	private final String ADD_NEW_SCHEDULE_QUERY = "INSERT INTO classes_scheduled(member_ID, class_ID) VALUES (?,?)";
+	private final String DELETE_SCHEDULE_BY_ID_QUERY = "DELETE FROM classes_scheduled WHERE schedule_ID = ?";
+	private final String DELETE_SCHEDULE_BY_CLASS_ID_QUERY = "DELETE FROM classes_scheduled WHERE class_ID = ?";
 	
 	public ClassesScheduledDao() {	
 		connection = DBConnection.getConnection();
@@ -43,6 +46,17 @@ public class ClassesScheduledDao {
 		return scheduleID;
 	}
 	
+	public List<ClassesScheduled> ClassScheduledByMemberID(int memberID) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(GET_CLASSES_SCHEDULED_BY_MEMBER_ID_QUERY);
+		ps.setInt(1, memberID);
+		ResultSet rs = ps.executeQuery();
+		List<ClassesScheduled> scheduleID = new ArrayList<ClassesScheduled>();
+		
+		while (rs.next()) {
+			scheduleID.add(populateSchedule(rs.getInt(1), rs.getInt(2), rs.getInt(3)));
+		}
+		return scheduleID;
+	}
 	private ClassesScheduled populateSchedule(int scheduleID, int memberID, int classID) {
 		return new ClassesScheduled(scheduleID, memberID, classID);
 	}
@@ -52,10 +66,19 @@ public class ClassesScheduledDao {
 		ps.setInt(1, memberID);
 		ps.setInt(2,classID);
 		ps.executeUpdate();
-		
 	}
 	
-
+	public void deleteScheduleById(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(DELETE_SCHEDULE_BY_ID_QUERY);
+		ps.setInt(1, id);
+		ps.executeUpdate();
+	}
+	
+	public void deleteScheduleByClassId(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(DELETE_SCHEDULE_BY_CLASS_ID_QUERY);
+		ps.setInt(1, id);
+		ps.executeUpdate();
+	}
 	
 
 	
