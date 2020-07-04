@@ -10,13 +10,16 @@ public class DBConnection {
 	//connection that will be shared throughout the whole application
 	private final static String URL = "jdbc:mysql://localhost:3306/gym";
 	private final static String USERNAME = "root";
-	private final static String PASSWORD = "MyS_20-Db";
+	private final static String PASSWORD = "Masterofmysea1!";
 	private static Connection connection;
 	private static DBConnection instance;
 	
 	//make this private so there's only one instance of this class
 	private DBConnection(Connection connection) {
-		this.connection = connection;
+		//this.connection = connection;
+		DBConnection.connection = connection;
+
+
 	}
 	
 	public static Connection getConnection() {
