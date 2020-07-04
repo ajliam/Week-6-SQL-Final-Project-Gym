@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-//import dao.ClassesDao;
-//import dao.ClassesScheduledDao;
+import dao.ClassesDao;
+import dao.ClassesScheduledDao;
 import dao.GymDao;
 import dao.MembershipDao;
 import dao.TrainerDao;
@@ -20,8 +20,8 @@ public class Menu {
 	private TrainerDao trainerDao = new TrainerDao();
 
 	private MembershipDao membershipDao = new MembershipDao();
-//	private ClassesDao classesDao = new ClassesDao();
-//	private ClassesScheduledDao classesScheduledDao = new ClassesScheduledDao();
+	private ClassesDao classesDao = new ClassesDao();
+	private ClassesScheduledDao classesScheduledDao = new ClassesScheduledDao();
 
 	private Scanner scanner = new Scanner(System.in);
 	private List<String> options = Arrays.asList(
@@ -61,10 +61,10 @@ public class Menu {
 					displayTrainers();
 				} else if (selection.equals("4")) {
 					displayMembers();
-				} else if (selection.equals("5")) {
-					displayClassRoster();
-				} else if (selection.equals("6")) {
-					addMembertoClass();
+//				} else if (selection.equals("5")) {
+//					displayClassRoster();
+//				} else if (selection.equals("6")) {
+//					addMembertoClass();
 				} else if (selection.equals("7")) {
 					addMemberToGym();
 				}  else if (selection.equals("8")) {
@@ -79,8 +79,8 @@ public class Menu {
 						updateFitnessInstructor();
 				} else if (selection.equals("13")) {
 					removeMember();
-				} else if (selection.equals("14")) {
-					deleteMemberFromClass();
+//				} else if (selection.equals("14")) {
+//					deleteMemberFromClass();
 				}  else if (selection.equals("15")) {
 					deleteClass();
 				}  else if (selection.equals("16")) {
