@@ -31,14 +31,14 @@ public class Menu {
 			"Display fitness instructors",
 			"Display fitness center members",
 			"Display the roster for a fitness class",
-			"Display all scheduled fitness classes",
+			"Display all scheduled fitness classes\n",
 			"Add a member to a fitness class",
 			"Add a member to the gym",
 			"Add a fitness class",
-			"Add a fitness instructor",
+			"Add a fitness instructor\n",
 			"Update a member's information",
 			"Update a fitness class",
-			"Update a fitness instructor",
+			"Update a fitness instructor\n",
 			"Remove a fitness center member",
 			"Remove a member from a class",
 			"Remove a fitness class",
@@ -171,14 +171,12 @@ public class Menu {
 			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
 			+ "\n     MemberID: " + eachClass.getMemberID() + "   Member: " + membershipDao.memberName(eachClass.getMemberID()) + "\n");
 		}
-	
 		System.out.print("Enter the schedule ID: ");
 		int scheduleID = Integer.parseInt(scanner.nextLine());
 		trainerDao.deleteTrainerById(scheduleID);
 		classesScheduledDao.deleteScheduleById(scheduleID);
 		
-	List<ClassesScheduled> listSchedule2 =  classesScheduledDao.ClassScheduledByMemberID(memberID);
-		
+		List<ClassesScheduled> listSchedule2 =  classesScheduledDao.ClassScheduledByMemberID(memberID);
 		System.out.println("\nScheduled Classes:\n");
 		for (ClassesScheduled eachClass : listSchedule2) {
 			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
@@ -249,7 +247,6 @@ public class Menu {
 		classesScheduledDao.deleteScheduleByClassId(classID);
 		classesDao.deleteClassByID(classID);
 		displayClasses();
-		
 	}
 
 
@@ -298,6 +295,7 @@ public class Menu {
 	}
 	
 	private void displayMembers() throws SQLException {
+		displayGymInfo();
 		System.out.print("Enter gym ID for a list of members: ");
 		int id = Integer.parseInt(scanner.nextLine());
 		Gym gym = gymDao.getGymByID(id);
