@@ -16,7 +16,6 @@ public class GymDao {
 
 	private final String GET_GYM_INFO_QUERY = "SELECT * FROM gym";
 	private final String GET_GYM_BY_ID_QUERY = "SELECT * FROM gym WHERE gym_id = ?";
-	
 	public GymDao() {
 		connection = DBConnection.getConnection();
 		membershipDao = new MembershipDao();

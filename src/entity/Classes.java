@@ -3,16 +3,12 @@ package entity;
 public class Classes {
 	private int classId;
 	private String className;
-<<<<<<< HEAD
 	private String classDate;
 	private int gymId;
 	private int trainerId;
 	private String startTime;
 	private int classLength;
 	
-=======
-	private String dateTime;
->>>>>>> dc432fa5b09427db7fc16cdfd10ac00a50af870c
 	
 	public Classes(int classId, String className, String classDate, int gymId, int trainerId, String startTime, int classLength) {
 		this.setClassId(classId);
