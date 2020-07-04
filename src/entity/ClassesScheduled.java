@@ -50,7 +50,6 @@ public class ClassesScheduled {
 	private int scheduleId;
 	private List<Membership> members;
 	private List<Classes> fitnessClass;
-	//Is a list of classes needed? 
 	
 	public ClassesScheduled(int scheduleId, List<Membership> members, List<Classes> fitnessClass) {
 		this.setScheduleId(scheduleId);

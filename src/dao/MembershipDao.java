@@ -14,6 +14,7 @@ public class MembershipDao {
 	
 	private Connection connection;
 	private final String GET_MEMBERS_BY_GYM_ID_QUERY = "SELECT * FROM membership WHERE gym_id = ?";
+	private final String GET_MEMBERS_QUERY = "SELECT * FROM membership";
 	private final String GET_MEMBER_BY_MEMBER_ID_QUERY = "SELECT * FROM membership WHERE member_id = ?";
 	private final String CREATE_NEW_MEMBER_QUERY = "INSERT INTO membership(first_name, last_name, phone_Number, birth_Date, gym_id) VALUES(?,?,?,?,?)";
 	private final String UPDATE_MEMBER_BY_ID_QUERY = "UPDATE membership SET first_Name = ?, last_Name = ?, phone_Number = ?, birth_Date = ? WHERE member_ID = ?";
@@ -32,6 +33,18 @@ public class MembershipDao {
 		
 		while (rs.next()) {
 			members.add(new Membership(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+		}
+		return members;
+	}
+	
+	public List<Membership> getAllMembers() throws SQLException {
+		ResultSet rs = connection.prepareStatement(GET_MEMBERS_QUERY).executeQuery();
+//		PreparedStatement ps = connection.prepareStatement(GET_MEMBERS_QUERY);
+//		ResultSet rs = ps.executeQuery();
+		List<Membership> members = new ArrayList<Membership>();
+		
+		while (rs.next()) {
+			members.add(populateMember(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
 		}
 		return members;
 	}
