@@ -5,7 +5,6 @@ public class Classes {
 	private int classId;
 	private String className;
 	private String dateTime;
-	//private List<Trainer> trainers;
 	
 	public Classes(int classId, String className, String dateTime) {
 		this.setClassId(classId);
