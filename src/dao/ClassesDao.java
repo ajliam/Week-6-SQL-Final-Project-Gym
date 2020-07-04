@@ -17,11 +17,11 @@ public class ClassesDao {
 	private final String DELETE_CLASS_BY_ID_QUERY = "DELETE FROM classes WHERE class_ID = ?";
 	private final String UPDATE_CLASS_BY_ID_QUERY = "UPDATE classes SET class_Name = ?, class_Date = ?, gym_ID = ?, trainer_ID = ?, start_Time = ?, class_Length = ? WHERE class_ID = ?";
 	private final String GET_TRAINER_NAME_QUERY = "SELECT first_Name, last_Name FROM trainer WHERE trainer_ID = ?";
+	
 	public ClassesDao() {
 		connection = DBConnection.getConnection();
 	}
 	
-
 	public List<Classes> Classes() throws SQLException {
 		ResultSet rs = connection.prepareStatement(GET_CLASSES_QUERY).executeQuery();
 		List<Classes> classes = new ArrayList<Classes>();
@@ -31,11 +31,6 @@ public class ClassesDao {
 			
 		}
 		return classes;
-	}
-
-	private Classes populateClasses(int classID, String className, String classDate, int gymID, int trainerID, String startTime, int classLength) {
-		return new Classes(classID, className, classDate, gymID, trainerID, startTime, classLength);
-		
 	}
 
 	public void updateClass(int classID, String className, String classDate, int gymID, int trainerID, String startTime, int length) throws SQLException {
@@ -67,7 +62,10 @@ public class ClassesDao {
 		ps.executeUpdate();
 	}
 	
-
+	private Classes populateClasses(int classID, String className, String classDate, int gymID, int trainerID, String startTime, int classLength) {
+		return new Classes(classID, className, classDate, gymID, trainerID, startTime, classLength);
+		
+	}
 
 	
 }
