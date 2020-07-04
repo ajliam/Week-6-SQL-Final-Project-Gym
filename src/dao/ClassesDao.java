@@ -13,10 +13,10 @@ public class ClassesDao {
 
 	private Connection connection;
 	private final String GET_CLASSES_QUERY = "SELECT * FROM classes";
+	private final String GET_CLASSES_BY_ID_QUERY = "SELECT class_Name FROM classes WHERE class_ID = ?";
 	private final String ADD_NEW_CLASS_QUERY = "INSERT INTO classes(class_Name, class_Date, gym_ID, trainer_ID, start_Time, class_Length) VALUES (?,?,?,?,?,?)";
 	private final String DELETE_CLASS_BY_ID_QUERY = "DELETE FROM classes WHERE class_ID = ?";
 	private final String UPDATE_CLASS_BY_ID_QUERY = "UPDATE classes SET class_Name = ?, class_Date = ?, gym_ID = ?, trainer_ID = ?, start_Time = ?, class_Length = ? WHERE class_ID = ?";
-	private final String GET_TRAINER_NAME_QUERY = "SELECT first_Name, last_Name FROM trainer WHERE trainer_ID = ?";
 	public ClassesDao() {
 		connection = DBConnection.getConnection();
 	}
@@ -66,7 +66,13 @@ public class ClassesDao {
 		ps.setInt(1, id);
 		ps.executeUpdate();
 	}
-	
+	public String getClassNameByID(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(GET_CLASSES_BY_ID_QUERY);
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		return rs.getString(1);
+	}
 
 
 	
