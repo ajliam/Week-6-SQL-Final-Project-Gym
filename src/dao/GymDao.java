@@ -44,5 +44,11 @@ public class GymDao {
 		return new Gym(gymId, gymName, phoneNumber, address, city, state, zipCode, membershipDao.getMembersByGymId(gymId));
 	}
 	
-
+	public String getGymNameByID(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(GET_GYM_BY_ID_QUERY);
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		return rs.getString(2);
+	}
 }
