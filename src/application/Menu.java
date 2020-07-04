@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.ClassesDao;
-import dao.ClassesScheduledDao;
+//import dao.ClassesDao;
+//import dao.ClassesScheduledDao;
 import dao.GymDao;
 import dao.MembershipDao;
 import dao.TrainerDao;
@@ -20,8 +20,8 @@ public class Menu {
 	private TrainerDao trainerDao = new TrainerDao();
 
 	private MembershipDao membershipDao = new MembershipDao();
-	private ClassesDao classesDao = new ClassesDao();
-	private ClassesScheduledDao classesScheduledDao = new ClassesScheduledDao();
+//	private ClassesDao classesDao = new ClassesDao();
+//	private ClassesScheduledDao classesScheduledDao = new ClassesScheduledDao();
 
 	private Scanner scanner = new Scanner(System.in);
 	private List<String> options = Arrays.asList(
@@ -53,31 +53,31 @@ public class Menu {
 	
 			try {
 				if (selection.equals("1")) {
-	//				displayGymInfo();
+					displayGymInfo();
 				} else if (selection.equals("2")) {
 					displayClasses();
 				} else if (selection.equals("3")) {
 					displayTrainers();
-	//			} else if (selection.equals("4")) {
-	//				displayMembers();
+				} else if (selection.equals("4")) {
+					displayMembers();
 	//			} else if (selection.equals("5")) {
 	//				displayClassRoster();
 	//			} else if (selection.equals("6")) {
 	//				addMembertoClass();
-	//			} else if (selection.equals("7")) {
-	//				addMembertoGym();
+				} else if (selection.equals("7")) {
+					addMemberToGym();
 	//			}  else if (selection.equals("8")) {
 	//				addFitnessClass();
 				}  else if (selection.contentEquals("9")) {
 						addFitnessInstructor();
-	//			}  else if (selection.equals("10")) {
-	//				updateMember();
+				}  else if (selection.equals("10")) {
+					updateMember();
 	//			} else if (selection.equals("11")) {
 	//				updateClass();
 				}  else if (selection.contentEquals("12")) {
 						updateFitnessInstructor();
-	//			} else if (selection.equals("13")) {
-	//				deleteMember();
+				} else if (selection.equals("13")) {
+					removeMember();
 	//			} else if (selection.equals("14")) {
 	//				deleteMemberFromClass();
 	//			}  else if (selection.equals("15")) {
@@ -178,8 +178,8 @@ public class Menu {
 		int id = Integer.parseInt(scanner.nextLine());
 		Gym gym = gymDao.getGymByID(id);
 		for (Membership member: gym.getMembers()) {
-			System.out.println("\tMember Id: "  + member.getMemberId() + " - Name: " + member.getFirstName() + " " + member.getLastName() + ", " +
-			 " Phone number: " + member.getPhoneNumber() + ", " + " Birth date: " + member.getBirthDate());
+			System.out.println("\tMember ID: "  + member.getMemberId() + ") "+ " Name: " + member.getFirstName() + " " + member.getLastName() +
+			 " Phone number: " + member.getPhoneNumber() + " Birth date: " + member.getBirthDate());
 		}
 		
 	}
@@ -200,7 +200,9 @@ public class Menu {
 	
 	private void updateMember() throws SQLException {
 		displayMembers();
-		System.out.print("Which member do you want to update? Enter their member ID: ");
+		System.out.println("\nUpdate a Member:");
+	//	System.out.print("Which member do you want to update? Enter their member ID: ");
+		System.out.print("Enter members's ID: ");
 		int memberId = Integer.parseInt(scanner.nextLine());
 		Membership member = membershipDao.getMemberByID(memberId);
 		System.out.println("\tYou are updating: Member Id: "  + member.getMemberId() + " - Name: " + member.getFirstName() + " " + member.getLastName() + ", " +
@@ -214,6 +216,7 @@ public class Menu {
 		System.out.println("Enter member's birth date: ");
 		String birthDate = scanner.nextLine();
 		membershipDao.updateMember(firstName, lastName, phoneNumber, birthDate, memberId);
+
 	}
 	
 	private void removeMember() throws SQLException {
