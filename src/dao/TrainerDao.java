@@ -37,8 +37,6 @@ public class TrainerDao {
 		
 	}
 
-	
-
 	public void addNewTrainer(String first_Name, String last_Name, int gym_ID) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(ADD_NEW_TRAINER_QUERY);
 		ps.setString(1, first_Name);
@@ -53,8 +51,6 @@ public class TrainerDao {
 		ps.executeUpdate();
 	}
 	
-
-
 	public void updateTrainer(int instructorID, String firstName, String lastName, int gymID) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(UPDATE_TRAINER_BY_ID_QUERY);
 		ps.setString(1, firstName);
