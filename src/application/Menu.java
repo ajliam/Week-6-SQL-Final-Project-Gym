@@ -10,15 +10,15 @@ import java.util.Scanner;
 import dao.GymDao;
 import dao.MembershipDao;
 import dao.TrainerDao;
+import entity.Classes;
 import entity.Trainer;
 import entity.Gym;
 import entity.Membership;
 
-
-
 public class Menu {
 	private GymDao gymDao = new GymDao();
 	private TrainerDao trainerDao = new TrainerDao();
+
 	private MembershipDao membershipDao = new MembershipDao();
 //	private ClassesDao classesDao = new ClassesDao();
 //	private ClassesScheduledDao classesScheduledDao = new ClassesScheduledDao();
@@ -55,7 +55,7 @@ public class Menu {
 				if (selection.equals("1")) {
 					displayGymInfo();
 				} else if (selection.equals("2")) {
-	//				displayClasses();
+					displayClasses();
 				} else if (selection.equals("3")) {
 					displayTrainers();
 				} else if (selection.equals("4")) {
@@ -111,11 +111,26 @@ public class Menu {
 		System.out.println("\nTrainers:");
 		for (Trainer trainer : listTrainers) {
 			System.out.println("ID: " + trainer.getTrainerId() + ")   Name: " + trainer.getFirstName() + " " 
-								+ trainer.getLastName() + "   Gym ID: " + trainer.getGym_ID() + "   Gym Name: "   );
+								+ trainer.getLastName() + "   Gym ID: " + trainer.getGym_ID() + "   Gym Name: ");
 		}
 		System.out.println();
 	}
 	
+	private void displayClasses() throws SQLException {
+		List<Classes> listClasses = classesDao.Classes();
+		System.out.println("\nClasses:");
+		for (Classes listClass : listClasses) {
+			System.out.println("ID: " + listClass.getClassId() + ")   Name: " + listClass.getClassName() + "   Date: " + listClass.getClassDate() + "   Time: " + listClass.getStartTime() + "   Length: " + listClass.getClassLegnth() +
+			//					"\nTrainer: " +  classesDao.trainerName(listClass.getTrainerId())   + "   Gym: "  + "\n");
+			                  "\nTrainer: " +  trainerDao.trainerName(listClass.getTrainerId())   + "   Gym: "  + "\n");
+			
+		}
+	}
+	
+
+
+
+
 	private void addFitnessInstructor() throws SQLException {
 		System.out.println("Add Fitness Instructor");
 		System.out.print("Enter trainer's first name: ");
