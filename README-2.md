@@ -1,1 +1,0 @@
-# Promineo SQL Final
