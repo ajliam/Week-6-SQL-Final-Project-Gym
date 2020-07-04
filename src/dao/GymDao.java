@@ -16,7 +16,6 @@ public class GymDao {
 
 	private final String GET_GYM_INFO_QUERY = "SELECT * FROM gym";
 	private final String GET_GYM_BY_ID_QUERY = "SELECT * FROM gym WHERE gym_id = ?";
-	
 	public GymDao() {
 		connection = DBConnection.getConnection();
 		membershipDao = new MembershipDao();
@@ -45,5 +44,11 @@ public class GymDao {
 		return new Gym(gymId, gymName, phoneNumber, address, city, state, zipCode, membershipDao.getMembersByGymId(gymId));
 	}
 	
-
+	public String getGymNameByID(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(GET_GYM_BY_ID_QUERY);
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		return rs.getString(2);
+	}
 }

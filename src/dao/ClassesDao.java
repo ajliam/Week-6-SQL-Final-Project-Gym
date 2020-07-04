@@ -37,20 +37,37 @@ public class ClassesDao {
 		return new Classes(classID, className, classDate, gymID, trainerID, startTime, classLength);
 		
 	}
-	
-	public String trainerName(int trainerId) throws SQLException {
-		String firstName = "";
-		String lastName = "";
-		PreparedStatement ps = connection.prepareStatement(GET_TRAINER_NAME_QUERY);
-		ps.setInt(1, trainerId);
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			firstName = rs.getString(1); 
-			lastName = rs.getString(2);
-		}
-		rs.close();
-		return (firstName + " " + lastName); 
+
+	public void updateClass(int classID, String className, String classDate, int gymID, int trainerID, String startTime, int length) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(UPDATE_CLASS_BY_ID_QUERY);
+		ps.setString(1,className);
+		ps.setString(2,classDate);
+		ps.setInt(3, gymID);
+		ps.setInt(4, trainerID);
+		ps.setString(5, startTime);
+		ps.setInt(6, length);
+		ps.setInt(7, classID);
+		ps.executeUpdate();
+	}
+
+	public void addNewClass(String className, String classDate, int gymID, int trainerID, String startTime, int length) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(ADD_NEW_CLASS_QUERY);
+		ps.setString(1,className);
+		ps.setString(2,classDate);
+		ps.setInt(3, gymID);
+		ps.setInt(4, trainerID);
+		ps.setString(5, startTime);
+		ps.setInt(6, length);
+		ps.executeUpdate();
+	}
+
+	public void deleteClassByID(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(DELETE_CLASS_BY_ID_QUERY);
+		ps.setInt(1, id);
+		ps.executeUpdate();
 	}
 	
+
+
 	
 }

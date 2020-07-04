@@ -50,7 +50,8 @@ public class Menu {
 			printMenu();
 			System.out.print("\nPlease enter option: ");
 			selection = scanner.nextLine();
-	
+			System.out.println();
+			
 			try {
 				if (selection.equals("1")) {
 					displayGymInfo();
@@ -60,28 +61,28 @@ public class Menu {
 					displayTrainers();
 				} else if (selection.equals("4")) {
 					displayMembers();
-	//			} else if (selection.equals("5")) {
-	//				displayClassRoster();
-	//			} else if (selection.equals("6")) {
-	//				addMembertoClass();
+				} else if (selection.equals("5")) {
+					displayClassRoster();
+				} else if (selection.equals("6")) {
+					addMembertoClass();
 				} else if (selection.equals("7")) {
 					addMemberToGym();
-	//			}  else if (selection.equals("8")) {
-	//				addFitnessClass();
+				}  else if (selection.equals("8")) {
+					addFitnessClass();
 				}  else if (selection.contentEquals("9")) {
 						addFitnessInstructor();
 				}  else if (selection.equals("10")) {
 					updateMember();
-	//			} else if (selection.equals("11")) {
-	//				updateClass();
+				} else if (selection.equals("11")) {
+					updateClass();
 				}  else if (selection.contentEquals("12")) {
 						updateFitnessInstructor();
 				} else if (selection.equals("13")) {
 					removeMember();
-	//			} else if (selection.equals("14")) {
-	//				deleteMemberFromClass();
-	//			}  else if (selection.equals("15")) {
-	//				deleteClass();
+				} else if (selection.equals("14")) {
+					deleteMemberFromClass();
+				}  else if (selection.equals("15")) {
+					deleteClass();
 				}  else if (selection.equals("16")) {
 					removeFitnessInstructor();
 				}
@@ -99,6 +100,7 @@ public class Menu {
 
 	
 
+
 	private void printMenu() {
 		System.out.println("Select an Option:\n-------------------");
 		for (int i = 0; i < options.size(); i++) {
@@ -111,7 +113,7 @@ public class Menu {
 		System.out.println("\nTrainers:");
 		for (Trainer trainer : listTrainers) {
 			System.out.println("ID: " + trainer.getTrainerId() + ")   Name: " + trainer.getFirstName() + " " 
-								+ trainer.getLastName() + "   Gym ID: " + trainer.getGym_ID() + "   Gym Name: ");
+								+ trainer.getLastName() + "   Gym: " + gymDao.getGymNameByID(trainer.getGym_ID()));
 		}
 		System.out.println();
 	}
@@ -120,14 +122,64 @@ public class Menu {
 		List<Classes> listClasses = classesDao.Classes();
 		System.out.println("\nClasses:");
 		for (Classes listClass : listClasses) {
-			System.out.println("ID: " + listClass.getClassId() + ")   Name: " + listClass.getClassName() + "   Date: " + listClass.getClassDate() + "   Time: " + listClass.getStartTime() + "   Length: " + listClass.getClassLegnth() +
-			//					"\nTrainer: " +  classesDao.trainerName(listClass.getTrainerId())   + "   Gym: "  + "\n");
-			                  "\nTrainer: " +  trainerDao.trainerName(listClass.getTrainerId())   + "   Gym: "  + "\n");
+			System.out.println("ID: " + listClass.getClassId() + ")   Name: " + listClass.getClassName() + "   Date: " + listClass.getClassDate() + "   Time: " 
+								+ listClass.getStartTime() + "   Length: " + listClass.getClassLegnth() + "\nTrainer: " 
+								+  trainerDao.trainerName(listClass.getTrainerId())   + "   Gym: " + gymDao.getGymNameByID(listClass.getGymId()) + "\n");
 			
 		}
 	}
 	
+	private void updateClass() throws SQLException {
+		displayGymInfo();
+		displayTrainers();
+		displayClasses();
+		System.out.println("\nUpdate a Fitness Class:");
+		System.out.print("Enter Class's ID: ");
+		int classID = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter the class name: ");
+		String className = scanner.nextLine();
+		System.out.print("Enter the class date (2020-01-31): ");
+		String classDate = scanner.nextLine();
+		System.out.print("Enter the class start time: ");
+		String startTime = scanner.nextLine();
+		System.out.print("Enter the class length (minutes): ");
+		int length = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter the trainer's ID: ");
+		int trainerID = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter the gym's ID: ");
+		int gymID  = Integer.parseInt(scanner.nextLine());
+		classesDao.updateClass(classID, className, classDate, gymID, trainerID, startTime, length);
+	}
 
+	private void addFitnessClass() throws SQLException {
+		displayGymInfo();
+		displayTrainers();
+		displayClasses();
+		System.out.print("\nAdd a Fitness Class:");
+		System.out.print("Enter the class name: ");
+		String className = scanner.nextLine();
+		System.out.print("Enter the class date (2020-01-31): ");
+		String classDate = scanner.nextLine();
+		System.out.print("Enter the class start time: ");
+		String startTime = scanner.nextLine();
+		System.out.print("Enter the class length (minutes): ");
+		int length = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter the trainer's ID: ");
+		int trainerID = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter the gym's ID: ");
+		int gymID  = Integer.parseInt(scanner.nextLine());
+		classesDao.addNewClass(className, classDate, gymID, trainerID, startTime, length);
+	}
+	
+	private void deleteClass() throws SQLException {
+		displayClasses();
+		System.out.println("Remove A Fitness Class:");
+		System.out.print("Enter the class ID: ");
+		int instructorID = Integer.parseInt(scanner.nextLine());
+		trainerDao.deleteTrainerById(instructorID);
+		displayClasses();
+		
+	}
 
 
 
@@ -171,6 +223,7 @@ public class Menu {
 		for(Gym gym: gyms) {
 			System.out.println("Gym ID: " + gym.getGymId() + "\nName: " + gym.getGymName() + "\nAddress: " + gym.getAddress() + " " + gym.getCity() + ", " + gym.getState() + " " + gym.getZipCode());
 		}
+		System.out.println();
 	}
 	
 	private void displayMembers() throws SQLException {
