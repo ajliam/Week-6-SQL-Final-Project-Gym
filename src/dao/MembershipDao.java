@@ -87,4 +87,17 @@ public class MembershipDao {
 		return new Membership(memberId, firstName, lastName, phoneNumber, birthDate);
 	}
 	
+	public String memberName(int memberId) throws SQLException {
+		String firstName = "";
+		String lastName = "";
+		PreparedStatement ps = connection.prepareStatement(GET_MEMBER_BY_MEMBER_ID_QUERY);
+		ps.setInt(1, memberId);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			firstName = rs.getString(2); 
+			lastName = rs.getString(3);
+		}
+		rs.close();
+		return (firstName + " " + lastName); 
+	}
 }

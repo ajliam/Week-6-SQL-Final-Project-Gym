@@ -11,6 +11,7 @@ import dao.GymDao;
 import dao.MembershipDao;
 import dao.TrainerDao;
 import entity.Classes;
+import entity.ClassesScheduled;
 import entity.Trainer;
 import entity.Gym;
 import entity.Membership;
@@ -39,7 +40,7 @@ public class Menu {
 			"Update a gym's information",
 			"Update a member's information",
 			"Update a fitness class",
-			"Update a fitness instructor",
+			"Update a fitness instructor\n",
 			"Remove a fitness center member",
 			"Remove a member from a class",
 			"Remove a fitness class",
@@ -123,6 +124,70 @@ public class Menu {
 		}
 		System.out.println();
 	}
+	private void displayClassRoster() throws SQLException {
+		displayClasses();
+		System.out.println("\nDisplay Schedule By Class\n");
+		System.out.print("Enter class ID: ");
+		int classID = Integer.parseInt(scanner.nextLine());
+		System.out.println("\n" + classesDao.getClassNameByID(classID) + "\n");
+		List<ClassesScheduled> listSchedule =  classesScheduledDao.ClassScheduledByID(classID);
+	
+		for (ClassesScheduled eachClass : listSchedule) {
+			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
+			+ "\n     MemberID: " + eachClass.getMemberID() + "   Member: " + membershipDao.memberName(eachClass.getMemberID()) + "\n");
+		}
+	}
+	
+	
+	private void displayAllScheduledClasses() throws SQLException {
+		List<ClassesScheduled> listSchedule = classesScheduledDao.ClassScheduled();
+		System.out.println("\nAll Scheduled Classes:\n");
+		
+		for (ClassesScheduled eachClass : listSchedule) {
+			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
+							+ "\n     MemberID: " + eachClass.getMemberID() + "   Member: " + membershipDao.memberName(eachClass.getMemberID()) + "\n");
+		}
+		System.out.println();
+	}
+	
+	private void addMembertoClass() throws SQLException {
+		displayClasses();
+		displayMembers();
+		System.out.println("\nAdd A Member To A Fitness Class\n");
+		System.out.print("Enter the member ID: ");
+		int memberID = Integer.parseInt(scanner.nextLine());
+		System.out.println("Enter the class ID: ");
+		int classID = Integer.parseInt(scanner.nextLine());
+		classesScheduledDao.addNewSchedule(memberID, classID);
+	}
+
+	private void deleteMemberFromClass() throws SQLException {
+		displayMembers();
+		System.out.println("\nRemove A Member From A Class:\n");
+		System.out.print("Enter the Member ID: ");
+		int memberID = Integer.parseInt(scanner.nextLine());
+		
+		List<ClassesScheduled> listSchedule =  classesScheduledDao.ClassScheduledByMemberID(memberID);
+		
+		System.out.println("\nScheduled Classes:\n");
+		for (ClassesScheduled eachClass : listSchedule) {
+			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
+			+ "\n     MemberID: " + eachClass.getMemberID() + "   Member: " + membershipDao.memberName(eachClass.getMemberID()) + "\n");
+		}
+		System.out.print("Enter the schedule ID: ");
+		int scheduleID = Integer.parseInt(scanner.nextLine());
+		trainerDao.deleteTrainerById(scheduleID);
+		classesScheduledDao.deleteScheduleById(scheduleID);
+		
+		List<ClassesScheduled> listSchedule2 =  classesScheduledDao.ClassScheduledByMemberID(memberID);
+		System.out.println("\nScheduled Classes:\n");
+		for (ClassesScheduled eachClass : listSchedule2) {
+			System.out.println("ScheduleID: " + eachClass.getScheduleID() + "\n     ClassID: " + eachClass.getClassID() + "   Class: " + classesDao.getClassNameByID(eachClass.getClassID())
+			+ "\n     MemberID: " + eachClass.getMemberID() + "   Member: " + membershipDao.memberName(eachClass.getMemberID()) + "\n");
+		}
+		
+		
+	}
 	
 	private void displayClasses() throws SQLException {
 		List<Classes> listClasses = classesDao.Classes();
@@ -180,10 +245,10 @@ public class Menu {
 		displayClasses();
 		System.out.println("Remove A Fitness Class:");
 		System.out.print("Enter the class ID: ");
-		int instructorID = Integer.parseInt(scanner.nextLine());
-		trainerDao.deleteTrainerById(instructorID);
+		int classID = Integer.parseInt(scanner.nextLine());
+		classesScheduledDao.deleteScheduleByClassId(classID);
+		classesDao.deleteClassByID(classID);
 		displayClasses();
-		
 	}
 
 	private void addFitnessInstructor() throws SQLException {
@@ -254,6 +319,7 @@ public class Menu {
 	}
 	
 	private void displayMembers() throws SQLException {
+		displayGymInfo();
 		System.out.print("Enter gym ID for a list of members: ");
 		int id = Integer.parseInt(scanner.nextLine());
 		Gym gym = gymDao.getGymByID(id);

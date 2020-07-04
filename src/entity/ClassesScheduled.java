@@ -3,7 +3,50 @@ package entity;
 import java.util.List;
 
 public class ClassesScheduled {
+	private int scheduleID;
+	private int memberID;
+	private int classID;
+
+	public ClassesScheduled(int scheduleID, int memberID, int classID) {
+		this.scheduleID = scheduleID;
+		this.memberID = memberID;
+		this.classID = classID;
+	}
+
+	public int getScheduleID() {
+		return scheduleID;
+	}
+
+	public void setScheduleID(int scheduleID) {
+		this.scheduleID = scheduleID;
+	}
+
+	public int getMemberID() {
+		return memberID;
+	}
+
+	public void setMemberID(int memberID) {
+		this.memberID = memberID;
+	}
+
+	public int getClassID() {
+		return classID;
+	}
+
+	public void setClassID(int classID) {
+		this.classID = classID;
+	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/*	
 	private int scheduleId;
 	private List<Membership> members;
 	private List<Classes> fitnessClass;
@@ -37,5 +80,5 @@ public class ClassesScheduled {
 	public void setFitnessClass(List<Classes> fitnessClass) {
 		this.fitnessClass = fitnessClass;
 	}
-
+*/
 }
