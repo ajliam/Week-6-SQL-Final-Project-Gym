@@ -15,7 +15,7 @@ public class TrainerDao {
 	private final String ADD_NEW_TRAINER_QUERY = "INSERT INTO trainer(first_Name, last_Name, gym_ID) VALUES (?,?,?)";
 	private final String DELETE_TRAINER_BY_ID_QUERY = "DELETE FROM trainer WHERE trainer_ID = ?";
 	private final String UPDATE_TRAINER_BY_ID_QUERY = "UPDATE trainer SET first_Name = ?, last_Name = ?, gym_ID = ? WHERE trainer_ID = ?";
-	
+	private final String GET_TRAINER_NAME_QUERY = "SELECT first_Name, last_Name FROM trainer WHERE trainer_ID = ?";
 	public TrainerDao() {
 		connection = DBConnection.getConnection();
 	}
@@ -28,6 +28,7 @@ public class TrainerDao {
 			trainers.add(populateTrainer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
 			
 		}
+		rs.close();
 		return trainers;
 	}
 
@@ -61,6 +62,20 @@ public class TrainerDao {
 		ps.setInt(3, gymID);
 		ps.setInt(4, instructorID);
 		ps.executeUpdate();
-		
 	}
+	
+	public String trainerName(int trainerId) throws SQLException {
+		String firstName = "";
+		String lastName = "";
+		PreparedStatement ps = connection.prepareStatement(GET_TRAINER_NAME_QUERY);
+		ps.setInt(1, trainerId);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			firstName = rs.getString(1); 
+			lastName = rs.getString(2);
+		}
+		rs.close();
+		return (firstName + " " + lastName); 
+	}
+	
 }
