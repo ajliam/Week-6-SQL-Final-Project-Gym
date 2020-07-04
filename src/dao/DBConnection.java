@@ -19,7 +19,6 @@ public class DBConnection {
 		this.connection = connection;
 	}
 	
-	//create method that allows you to get the method you want to use
 	public static Connection getConnection() {
 		if (instance == null) {
 			try {

@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 public class Gym {
 
 	private int gymId;
@@ -9,8 +11,9 @@ public class Gym {
 	private String city;
 	private String state;
 	private int zipCode;
+	private List<Membership> members;
 	
-	public Gym(int gymId, String gymName, String phoneNumber, String address, String city, String state, int zipCode) {
+	public Gym(int gymId, String gymName, String phoneNumber, String address, String city, String state, int zipCode, List<Membership> members) {
 		this.setGymId(gymId);
 		this.setGymName(gymName);
 		this.setPhoneNumber(phoneNumber);
@@ -18,7 +21,7 @@ public class Gym {
 		this.setCity(city);
 		this.setState(state);
 		this.setZipCode(zipCode);
-		
+		this.setMembers(members);
 	}
 
 	public int getGymId() {
@@ -75,5 +78,13 @@ public class Gym {
 
 	public void setZipCode(int zipCode) {
 		this.zipCode = zipCode;
+	}
+	
+	public List<Membership> getMembers() {
+		return members;
+	}
+	
+	public void setMembers(List<Membership> members) {
+		this.members = members;
 	}
 }
