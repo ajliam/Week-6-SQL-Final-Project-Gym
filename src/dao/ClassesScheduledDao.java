@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.Classes;
 import entity.ClassesScheduled;
 
 
@@ -19,6 +20,7 @@ public class ClassesScheduledDao {
 	private final String ADD_NEW_SCHEDULE_QUERY = "INSERT INTO classes_scheduled(member_ID, class_ID) VALUES (?,?)";
 	private final String DELETE_SCHEDULE_BY_ID_QUERY = "DELETE FROM classes_scheduled WHERE schedule_ID = ?";
 	private final String DELETE_SCHEDULE_BY_CLASS_ID_QUERY = "DELETE FROM classes_scheduled WHERE class_ID = ?";
+	private final String DELETE_SCHEDULE_BY_MEMBER_ID_QUERY = "DELETE FROM classes_scheduled WHERE member_ID = ?";
 	
 	public ClassesScheduledDao() {	
 		connection = DBConnection.getConnection();
@@ -74,14 +76,19 @@ public class ClassesScheduledDao {
 		ps.executeUpdate();
 	}
 	
-	public void deleteScheduleByClassId(int id) throws SQLException {
+	public void deleteScheduleByClassId(Integer id) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(DELETE_SCHEDULE_BY_CLASS_ID_QUERY);
 		ps.setInt(1, id);
 		ps.executeUpdate();
 	}
 	
+	public void deleteScheduleByMemberId(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(DELETE_SCHEDULE_BY_MEMBER_ID_QUERY);
+		ps.setInt(1, id);
+		ps.executeUpdate();
+	}
 
-	
+
 	
 
 }

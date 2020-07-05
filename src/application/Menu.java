@@ -32,11 +32,12 @@ public class Menu {
 			"Display fitness center members by gym",
 			"Display all fitness center members",
 			"Display the roster for a fitness class",
+			"Display all scheduled fitness classes\n",
 			"Add a new gym",
 			"Add a member to a fitness class",
 			"Add a member to the gym",
 			"Add a fitness class",
-			"Add a fitness instructor",
+			"Add a fitness instructor\n",
 			"Update a gym's information",
 			"Update a member's information",
 			"Update a fitness class",
@@ -67,33 +68,35 @@ public class Menu {
 					displayMembers();
 				} else if (selection.equals("5")) {
 					displayAllMembers();
-//				} else if (selection.equals("6")) {
-//					displayClassRoster();
+				} else if (selection.equals("6")) {
+					displayClassRoster();
 				} else if (selection.equals("7")) {
+					displayAllScheduledClasses();
+				} else if (selection.equals("8")) {
 					addNewGym(); 
-//				} else if (selection.equals("8")) {
-//					addMembertoClass();
 				} else if (selection.equals("9")) {
+					addMembertoClass();
+				} else if (selection.equals("10")) {
 					addMemberToGym();
-				}  else if (selection.equals("10")) {
+				}  else if (selection.equals("11")) {
 					addFitnessClass();
-				}  else if (selection.contentEquals("11")) {
+				}  else if (selection.contentEquals("12")) {
 						addFitnessInstructor();
-				} else if (selection.equals("12")) {
+				} else if (selection.equals("13")) {
 					updateGymInfo();
-				}  else if (selection.equals("13")) {
+				}  else if (selection.equals("14")) {
 					updateMember();
-				} else if (selection.equals("14")) {
+				} else if (selection.equals("15")) {
 					updateClass();
-				}  else if (selection.contentEquals("15")) {
+				}  else if (selection.contentEquals("16")) {
 						updateFitnessInstructor();
-				} else if (selection.equals("16")) {
+				} else if (selection.equals("17")) {
 					removeMember();
-//				} else if (selection.equals("17")) {
-//					deleteMemberFromClass();
-				}  else if (selection.equals("18")) {
-					deleteClass();
+				} else if (selection.equals("18")) {
+					deleteMemberFromClass();
 				}  else if (selection.equals("19")) {
+					deleteClass();
+				}  else if (selection.equals("20")) {
 					removeFitnessInstructor();
 				}
 				
@@ -152,17 +155,17 @@ public class Menu {
 	
 	private void addMembertoClass() throws SQLException {
 		displayClasses();
-		displayMembers();
+		displayAllMembers();
 		System.out.println("\nAdd A Member To A Fitness Class\n");
 		System.out.print("Enter the member ID: ");
 		int memberID = Integer.parseInt(scanner.nextLine());
-		System.out.println("Enter the class ID: ");
+		System.out.print("Enter the class ID: ");
 		int classID = Integer.parseInt(scanner.nextLine());
 		classesScheduledDao.addNewSchedule(memberID, classID);
 	}
 
 	private void deleteMemberFromClass() throws SQLException {
-		displayMembers();
+		displayAllMembers();
 		System.out.println("\nRemove A Member From A Class:\n");
 		System.out.print("Enter the Member ID: ");
 		int memberID = Integer.parseInt(scanner.nextLine());
@@ -301,10 +304,18 @@ public class Menu {
 	}
 
 	private void removeFitnessInstructor() throws SQLException {
+		
 		displayTrainers();
 		System.out.println("Remove A Fitness Instructor:");
 		System.out.print("Enter the instructor's ID: ");
 		int instructorID = Integer.parseInt(scanner.nextLine());
+		
+		List<Integer> listClasses = classesDao.ClassIDsByTrainerID(instructorID);
+		for (Integer classID : listClasses) {
+			classesScheduledDao.deleteScheduleByClassId(classID);
+		}
+
+		classesDao.deleteClassByTrainerID(instructorID);
 		trainerDao.deleteTrainerById(instructorID);
 		displayTrainers();
 	}
@@ -320,20 +331,21 @@ public class Menu {
 	
 	private void displayMembers() throws SQLException {
 		displayGymInfo();
-		System.out.print("Enter gym ID for a list of members: ");
+		System.out.print("\nEnter gym ID for a list of members: ");
 		int id = Integer.parseInt(scanner.nextLine());
 		Gym gym = gymDao.getGymByID(id);
 		for (Membership member: gym.getMembers()) {
 			System.out.println("\tMember ID: "  + member.getMemberId() + ") "+ " Name: " + member.getFirstName() + " " + member.getLastName() +
 			 " Phone number: " + member.getPhoneNumber() + " Birth date: " + member.getBirthDate());	
 		}
+		
 	}
 	
 	private void displayAllMembers() throws SQLException {
 		List<Membership> members = membershipDao.getAllMembers();
-		System.out.print("Gym members: ");
+		System.out.println("Gym members: ");
 		for (Membership member: members) {
-			System.out.println("\n\tMember ID: "  + member.getMemberId() + ") "+ " Name: " + member.getFirstName() + " " + member.getLastName() +
+			System.out.println("\tMember ID: "  + member.getMemberId() + ") "+ " Name: " + member.getFirstName() + " " + member.getLastName() +
 			 " Phone number: " + member.getPhoneNumber() + " Birth date: " + member.getBirthDate());	
 		}
 	}
@@ -394,6 +406,7 @@ public class Menu {
 	System.out.println("--- Remove a member --- ");
 	System.out.print("Enter the members's ID: ");
 	int memberId = Integer.parseInt(scanner.nextLine());
+	classesScheduledDao.deleteScheduleByMemberId(memberId);
 	membershipDao.deleteMemberById(memberId);
 }
 	

@@ -20,6 +20,10 @@ public class Classes {
 		this.setClassLength(classLength);
 	}
 
+	public Classes(int classID2) {
+		this.setClassId(classID2);
+	}
+
 	public int getClassId() {
 		return classId;
 	}

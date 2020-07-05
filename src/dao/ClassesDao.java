@@ -14,8 +14,10 @@ public class ClassesDao {
 	private Connection connection;
 	private final String GET_CLASSES_QUERY = "SELECT * FROM classes";
 	private final String GET_CLASSES_BY_ID_QUERY = "SELECT class_Name FROM classes WHERE class_ID = ?";
+	private final String GET_CLASSES_BY_TRAINER_ID_QUERY = "SELECT class_ID FROM classes WHERE trainer_ID = ?";
 	private final String ADD_NEW_CLASS_QUERY = "INSERT INTO classes(class_Name, class_Date, gym_ID, trainer_ID, start_Time, class_Length) VALUES (?,?,?,?,?,?)";
 	private final String DELETE_CLASS_BY_ID_QUERY = "DELETE FROM classes WHERE class_ID = ?";
+	private final String DELETE_CLASS_BY_TRAINER_ID_QUERY = "DELETE FROM classes WHERE trainer_ID = ?";
 	private final String UPDATE_CLASS_BY_ID_QUERY = "UPDATE classes SET class_Name = ?, class_Date = ?, gym_ID = ?, trainer_ID = ?, start_Time = ?, class_Length = ? WHERE class_ID = ?";
 
 	public ClassesDao() {
@@ -32,6 +34,21 @@ public class ClassesDao {
 		}
 		return classes;
 	}
+
+	public List<Integer> ClassIDsByTrainerID(int trainerID) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(GET_CLASSES_BY_TRAINER_ID_QUERY);
+		ps.setInt(1, trainerID);
+		ResultSet rs = ps.executeQuery();
+		List<Integer> classes = new ArrayList<Integer>();
+		
+		while (rs.next()) {
+			classes.add(rs.getInt(1));
+			
+		}
+		return classes;
+	}
+	
+	
 
 	public void updateClass(int classID, String className, String classDate, int gymID, int trainerID, String startTime, int length) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(UPDATE_CLASS_BY_ID_QUERY);
@@ -61,7 +78,12 @@ public class ClassesDao {
 		ps.setInt(1, id);
 		ps.executeUpdate();
 	}
-
+	
+	public void deleteClassByTrainerID(int id) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(DELETE_CLASS_BY_TRAINER_ID_QUERY);
+		ps.setInt(1, id);
+		ps.executeUpdate();
+	}
 	public String getClassNameByID(int id) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(GET_CLASSES_BY_ID_QUERY);
 		ps.setInt(1, id);
@@ -69,6 +91,7 @@ public class ClassesDao {
 		rs.next();
 		return rs.getString(1);
 	}
+
 	
 	private Classes populateClasses(int classID, String className, String classDate, int gymID, int trainerID, String startTime, int classLength) {
 		return new Classes(classID, className, classDate, gymID, trainerID, startTime, classLength);
