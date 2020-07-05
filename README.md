@@ -33,3 +33,6 @@ This is a java application that uses SQL to manage the data.
 1.	Allow an employee to add a member to a fitness class. 
 2.	Display a roster for a fitness class.
 3.	Allow an employee to remove a member from a fitness class. 
+
+## Demo
+![Demo CountPages alpha](https://github.com/azshjones12/Week-6-SQL-Final-Project-Gym/blob/master/Promineo%20Tech%20JavaSQL%20Final%20Project%20Demo.gif)
