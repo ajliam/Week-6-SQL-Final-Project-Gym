@@ -310,7 +310,7 @@ public class Menu {
 		System.out.print("Enter the instructor's ID: ");
 		int instructorID = Integer.parseInt(scanner.nextLine());
 		
-		List<Integer> listClasses = classesDao.ClassIDsByTrainerID();
+		List<Integer> listClasses = classesDao.ClassIDsByTrainerID(instructorID);
 		for (Integer classID : listClasses) {
 			classesScheduledDao.deleteScheduleByClassId(classID);
 		}

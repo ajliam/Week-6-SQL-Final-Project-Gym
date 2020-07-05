@@ -35,8 +35,10 @@ public class ClassesDao {
 		return classes;
 	}
 
-	public List<Integer> ClassIDsByTrainerID() throws SQLException {
-		ResultSet rs = connection.prepareStatement(GET_CLASSES_BY_TRAINER_ID_QUERY).executeQuery();
+	public List<Integer> ClassIDsByTrainerID(int trainerID) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement(GET_CLASSES_BY_TRAINER_ID_QUERY);
+		ps.setInt(1, trainerID);
+		ResultSet rs = ps.executeQuery();
 		List<Integer> classes = new ArrayList<Integer>();
 		
 		while (rs.next()) {
