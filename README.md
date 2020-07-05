@@ -12,10 +12,11 @@ This is a java application that uses SQL to manage the data.
 3.	Allow an employee to update a gym’s information.
 
 ###### Members
-1.	Display a list of fitness center members. 
-2.	Allow an employee to add a member to the gym.
-3.	Allow an employee to update a member’s information.
-4.	Allow an employee to remove a member from the gym.
+1.	Display a list of fitness center members by gym. 
+2.  Display a list of all fitness center members.
+3.	Allow an employee to add a member to the gym.
+4.	Allow an employee to update a member’s information.
+5.	Allow an employee to remove a member from the gym.
 
 ###### Trainers
 1.	Display a list of trainers at a gym.
